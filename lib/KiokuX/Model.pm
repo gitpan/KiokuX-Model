@@ -1,5 +1,6 @@
 package KiokuX::Model;
 use Moose;
+use MooseX::StrictConstructor;
 
 use Carp qw(croak);
 
@@ -7,7 +8,7 @@ use KiokuDB;
 
 use namespace::clean -except => 'meta';
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 sub BUILD {
 	my $self = shift;
@@ -70,6 +71,12 @@ sub _build__connect_args {
 	}
 
 	\@args;
+}
+
+sub connect {
+	my ( $class, $dsn, @args ) = @_;
+
+	$class->new( dsn => $dsn, extra_args => \@args );
 }
 
 __PACKAGE__->meta->make_immutable;
